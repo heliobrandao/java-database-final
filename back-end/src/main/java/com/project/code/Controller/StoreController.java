@@ -32,9 +32,9 @@ public class StoreController {
         return response;
     }
 
-    @GetMapping("/validate/store/{storeId}")
-    public boolean validateStore(@PathVariable Long storeId) {
-        return storeRepository.findById(storeId).isPresent();
+    @GetMapping("/validate/store/{id}")
+    public boolean validateStore(@PathVariable Long id) {
+        return storeRepository.findByid(id) != null;
     }
 
     @PostMapping("/placeOrder")

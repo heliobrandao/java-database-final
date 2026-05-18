@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping
+@RequestMapping("/reviews")
 public class ReviewController {
     @Autowired
     private ReviewRepository reviewRepository;
@@ -24,14 +24,14 @@ public class ReviewController {
     @Autowired
     private CustomerRepository customerRepository;
 
-    @GetMapping("/reviews")
+    @GetMapping
     public Map<String, Object> getAllReviews() {
         Map<String, Object> response = new HashMap<>();
         response.put("reviews", reviewRepository.findAll());
         return response;
     }
 
-    @GetMapping("/reviews/{storeId}/{productId}")
+    @GetMapping({"/{storeId}/{productId}", "/reviews/{storeId}/{productId}"})
     public Map<String, Object> getReviews(@PathVariable Long storeId, @PathVariable Long productId) {
         Map<String, Object> response = new HashMap<>();
         List<Review> reviews = reviewRepository.findByStoreIdAndProductId(storeId, productId);

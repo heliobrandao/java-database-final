@@ -55,7 +55,7 @@ public class OrderService {
             .orElseThrow(() -> new RuntimeException("Store not found"));
 
         OrderDetails orderDetails = new OrderDetails(customer, store, placeOrderRequest.getTotalPrice(), LocalDateTime.now());
-        orderDetails = orderDetailsRepository.save(orderDetails);
+        OrderDetails savedOrderDetails = orderDetailsRepository.save(orderDetails);
 
         for (PurchaseProductDTO purchase : placeOrderRequest.getPurchaseProduct()) {
             Product product = productRepository.findByid(purchase.getId());
@@ -79,7 +79,7 @@ public class OrderService {
             inventory.setStockLevel(currentStock - purchase.getQuantity());
             inventoryRepository.save(inventory);
 
-            OrderItem orderItem = new OrderItem(orderDetails, product, purchase.getQuantity(), purchase.getPrice());
+            OrderItem orderItem = new OrderItem(savedOrderDetails, product, purchase.getQuantity(), purchase.getPrice());
             orderItemRepository.save(orderItem);
         }
     }
