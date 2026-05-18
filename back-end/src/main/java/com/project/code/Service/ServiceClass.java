@@ -17,9 +17,13 @@ public class ServiceClass {
     }
 
     public boolean validateInventory(Inventory inventory) {
+        return validateInventory(inventory.getProduct().getId(), inventory.getStore().getId());
+    }
+
+    public boolean validateInventory(Long productId, Long storeId) {
         Inventory existing = inventoryRepository.findByProductIdandStoreId(
-            inventory.getProduct().getId(),
-            inventory.getStore().getId()
+            productId,
+            storeId
         );
         return existing == null;
     }
@@ -35,9 +39,13 @@ public class ServiceClass {
     }
 
     public Inventory getInventoryId(Inventory inventory) {
+        return getInventoryId(inventory.getProduct().getId(), inventory.getStore().getId());
+    }
+
+    public Inventory getInventoryId(Long productId, Long storeId) {
         return inventoryRepository.findByProductIdandStoreId(
-            inventory.getProduct().getId(),
-            inventory.getStore().getId()
+            productId,
+            storeId
         );
     }
 }

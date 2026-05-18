@@ -32,7 +32,7 @@ public class OrderDetails {
 
     private Double totalPrice;
 
-    private LocalDateTime date;
+    private LocalDateTime orderDate;
 
     @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
     @JsonManagedReference("order-items")
@@ -41,11 +41,11 @@ public class OrderDetails {
     public OrderDetails() {
     }
 
-    public OrderDetails(Customer customer, Store store, Double totalPrice, LocalDateTime date) {
+    public OrderDetails(Customer customer, Store store, Double totalPrice, LocalDateTime orderDate) {
         this.customer = customer;
         this.store = store;
         this.totalPrice = totalPrice;
-        this.date = date;
+        this.orderDate = orderDate;
     }
 
     public Long getId() {
@@ -81,11 +81,19 @@ public class OrderDetails {
     }
 
     public LocalDateTime getDate() {
-        return date;
+        return orderDate;
     }
 
     public void setDate(LocalDateTime date) {
-        this.date = date;
+        this.orderDate = date;
+    }
+
+    public LocalDateTime getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(LocalDateTime orderDate) {
+        this.orderDate = orderDate;
     }
 
     public List<OrderItem> getOrderItems() {

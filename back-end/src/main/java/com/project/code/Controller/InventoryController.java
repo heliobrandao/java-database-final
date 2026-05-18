@@ -85,24 +85,24 @@ public class InventoryController {
         }
     }
 
-    @GetMapping("/{storeid}")
-    public Map<String, Object> getAllProducts(@PathVariable Long storeid) {
+    @GetMapping("/{storeId}")
+    public Map<String, Object> getAllProducts(@PathVariable Long storeId) {
         Map<String, Object> response = new HashMap<>();
-        response.put("products", productRepository.findProductsByStoreId(storeid));
+        response.put("products", productRepository.findProductsByStoreId(storeId));
         return response;
     }
 
-    @GetMapping("/filter/{category}/{name}/{storeid}")
-    public Map<String, Object> getProductName(@PathVariable String category, @PathVariable String name, @PathVariable Long storeid) {
+    @GetMapping("/filter/{category}/{name}/{storeId}")
+    public Map<String, Object> getProductName(@PathVariable String category, @PathVariable String name, @PathVariable Long storeId) {
         Map<String, Object> response = new HashMap<>();
         List<Product> products;
 
         if ("null".equalsIgnoreCase(category)) {
-            products = productRepository.findByNameLike(storeid, name);
+            products = productRepository.findByNameLike(storeId, name);
         } else if ("null".equalsIgnoreCase(name)) {
-            products = productRepository.findByCategoryAndStoreId(storeid, category);
+            products = productRepository.findByCategoryAndStoreId(storeId, category);
         } else {
-            products = productRepository.findByNameAndCategory(storeid, name, category);
+            products = productRepository.findByNameAndCategory(storeId, name, category);
         }
 
         response.put("product", products);

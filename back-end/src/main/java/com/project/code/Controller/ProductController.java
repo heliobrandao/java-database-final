@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/product")
+@RequestMapping
 public class ProductController {
     @Autowired
     private ProductRepository productRepository;
@@ -31,7 +31,7 @@ public class ProductController {
     @Autowired
     private InventoryRepository inventoryRepository;
 
-    @PostMapping
+    @PostMapping("/product")
     public Map<String, String> addProduct(@RequestBody Product product) {
         Map<String, String> response = new HashMap<>();
         try {
@@ -51,14 +51,14 @@ public class ProductController {
         }
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/product/{id}")
     public Map<String, Object> getProductbyId(@PathVariable Long id) {
         Map<String, Object> response = new HashMap<>();
         response.put("products", productRepository.findById(id).orElse(null));
         return response;
     }
 
-    @PutMapping
+    @PutMapping("/product")
     public Map<String, String> updateProduct(@RequestBody Product product) {
         Map<String, String> response = new HashMap<>();
         try {
@@ -74,7 +74,7 @@ public class ProductController {
         }
     }
 
-    @GetMapping("/category/{name}/{category}")
+    @GetMapping("/product/category/{name}/{category}")
     public Map<String, Object> filterbyCategoryProduct(@PathVariable String name, @PathVariable String category) {
         Map<String, Object> response = new HashMap<>();
         List<Product> products;
@@ -93,21 +93,21 @@ public class ProductController {
         return response;
     }
 
-    @GetMapping
+    @GetMapping("/product")
     public Map<String, Object> listProduct() {
         Map<String, Object> response = new HashMap<>();
         response.put("products", productRepository.findAll());
         return response;
     }
 
-    @GetMapping("/filter/{category}/{storeid}")
-    public Map<String, Object> getProductbyCategoryAndStoreId(@PathVariable String category, @PathVariable Long storeid) {
+    @GetMapping("/product/filter/{category}/{storeId}")
+    public Map<String, Object> getProductbyCategoryAndStoreId(@PathVariable String category, @PathVariable Long storeId) {
         Map<String, Object> response = new HashMap<>();
-        response.put("product", productRepository.findProductByCategory(category, storeid));
+        response.put("product", productRepository.findProductByCategory(category, storeId));
         return response;
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/product/{id}")
     public Map<String, String> deleteProduct(@PathVariable Long id) {
         Map<String, String> response = new HashMap<>();
         if (!serviceClass.ValidateProductId(id)) {
@@ -121,7 +121,7 @@ public class ProductController {
         return response;
     }
 
-    @GetMapping("/searchProduct/{name}")
+    @GetMapping("/product/searchProduct/{name}")
     public Map<String, Object> searchProduct(@PathVariable String name) {
         Map<String, Object> response = new HashMap<>();
         response.put("products", productRepository.findProductBySubName(name));
