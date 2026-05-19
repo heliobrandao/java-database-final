@@ -37,6 +37,11 @@ public class StoreController {
         return storeRepository.findByid(id) != null;
     }
 
+    @GetMapping("/store/validate/store/{id}")
+    public boolean validateStoreWithPrefix(@PathVariable Long id) {
+        return validateStore(id);
+    }
+
     @PostMapping("/store/placeOrder")
     public Map<String, String> placeOrder(@RequestBody PlaceOrderRequestDTO placeOrderRequest) {
         Map<String, String> response = new HashMap<>();

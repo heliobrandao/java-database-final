@@ -58,6 +58,11 @@ public class ProductController {
         return response;
     }
 
+    @GetMapping("/{id}")
+    public Map<String, Object> getProductbyIdWithoutPrefix(@PathVariable Long id) {
+        return getProductbyId(id);
+    }
+
     @PutMapping("/product")
     public Map<String, String> updateProduct(@RequestBody Product product) {
         Map<String, String> response = new HashMap<>();
@@ -119,6 +124,11 @@ public class ProductController {
         productRepository.deleteById(id);
         response.put("message", "Product deleted successfully");
         return response;
+    }
+
+    @DeleteMapping("/product/{id}")
+    public Map<String, String> deleteProductWithPrefix(@PathVariable Long id) {
+        return deleteProduct(id);
     }
 
     @GetMapping("/product/searchProduct/{name}")

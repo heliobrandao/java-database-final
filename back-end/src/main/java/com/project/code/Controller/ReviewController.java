@@ -50,4 +50,9 @@ public class ReviewController {
         response.put("reviews", filtered);
         return response;
     }
+
+    @GetMapping("/reviews/{storeId}/{productId}")
+    public Map<String, Object> getReviewsWithPrefix(@PathVariable Long storeId, @PathVariable Long productId) {
+        return getReviews(storeId, productId);
+    }
 }
