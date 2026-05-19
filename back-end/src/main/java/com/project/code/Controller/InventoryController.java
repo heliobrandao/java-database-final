@@ -97,7 +97,9 @@ public class InventoryController {
         Map<String, Object> response = new HashMap<>();
         List<Product> products;
 
-        if ("null".equalsIgnoreCase(category)) {
+        if ("null".equalsIgnoreCase(category) && "null".equalsIgnoreCase(name)) {
+            products = productRepository.findProductsByStoreId(storeId);
+        } else if ("null".equalsIgnoreCase(category)) {
             products = productRepository.findByNameLike(storeId, name);
         } else if ("null".equalsIgnoreCase(name)) {
             products = productRepository.findByCategoryAndStoreId(storeId, category);
@@ -105,6 +107,7 @@ public class InventoryController {
             products = productRepository.findByNameAndCategory(storeId, name, category);
         }
 
+        response.put("products", products);
         response.put("product", products);
         return response;
     }

@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/store")
+@RequestMapping
 public class StoreController {
     @Autowired
     private StoreRepository storeRepository;
@@ -24,7 +24,7 @@ public class StoreController {
     @Autowired
     private OrderService orderService;
 
-    @PostMapping
+    @PostMapping("/store")
     public Map<String, String> addStore(@RequestBody Store store) {
         Map<String, String> response = new HashMap<>();
         Store saved = storeRepository.save(store);
@@ -37,7 +37,7 @@ public class StoreController {
         return storeRepository.findByid(id) != null;
     }
 
-    @PostMapping("/placeOrder")
+    @PostMapping("/store/placeOrder")
     public Map<String, String> placeOrder(@RequestBody PlaceOrderRequestDTO placeOrderRequest) {
         Map<String, String> response = new HashMap<>();
         try {
