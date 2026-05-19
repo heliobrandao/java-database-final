@@ -5,54 +5,50 @@ import com.project.code.Model.Review;
 import com.project.code.Repo.CustomerRepository;
 import com.project.code.Repo.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
-@RequestMapping
+@RequestMapping("/reviews")
 public class ReviewController {
+
     @Autowired
     private ReviewRepository reviewRepository;
 
     @Autowired
     private CustomerRepository customerRepository;
 
-    @GetMapping("/reviews")
-    public Map<String, Object> getAllReviews() {
-        Map<String, Object> response = new HashMap<>();
-        response.put("reviews", reviewRepository.findAll());
-        return response;
-    }
-
+    // GET /reviews/{storeId}/{productId} 
     @GetMapping("/{storeId}/{productId}")
-    public Map<String, Object> getReviews(@PathVariable Long storeId, @PathVariable Long productId) {
-        Map<String, Object> response = new HashMap<>();
+    public Map<String, Object> getReviews(@PathVariable long storeId, @PathVariable long productId) {
         List<Review> reviews = reviewRepository.findByStoreIdAndProductId(storeId, productId);
-        List<Map<String, Object>> filtered = new ArrayList<>();
+        List<Map<String, Object>> reviewsWithNames = new ArrayList<>();
 
         for (Review review : reviews) {
-            Map<String, Object> row = new HashMap<>();
-            row.put("comment", review.getComment());
-            row.put("rating", review.getRating());
+            Map<String, Object> item = new HashMap<>();
+            item.put("comment", review.getComment());
+            item.put("rating", review.getRating());
 
-            Customer customer = customerRepository.findById(review.getCustomerId() == null ? -1L : review.getCustomerId());
-            row.put("customerName", customer != null ? customer.getName() : "Unknown");
-            filtered.add(row);
+            // dynamiczne pobranie nazwy klienta
+            Customer customer = customerRepository.findByid(review.getCustomerId());
+            String customerName = (customer != null) ? customer.getName() : "Unknown";
+            item.put("customerName", customerName);
+
+            reviewsWithNames.add(item);
         }
 
-        response.put("reviews", filtered);
+        Map<String, Object> response = new HashMap<>();
+        response.put("reviews", reviewsWithNames);
         return response;
     }
 
-    @GetMapping("/reviews/{storeId}/{productId}")
-    public Map<String, Object> getReviewsWithPrefix(@PathVariable Long storeId, @PathVariable Long productId) {
-        return getReviews(storeId, productId);
+    // endpoint
+    @GetMapping
+    public Map<String, Object> getAllReviews() {
+        List<Review> all = reviewRepository.findAll();
+        Map<String, Object> response = new HashMap<>();
+        response.put("reviews", all);
+        return response;
     }
 }

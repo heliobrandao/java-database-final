@@ -8,51 +8,34 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ServiceClass {
-    private final ProductRepository productRepository;
-    private final InventoryRepository inventoryRepository;
 
-    public ServiceClass(ProductRepository productRepository, InventoryRepository inventoryRepository) {
-        this.productRepository = productRepository;
+    private final InventoryRepository inventoryRepository;
+    private final ProductRepository productRepository;
+
+    public ServiceClass(InventoryRepository inventoryRepository, ProductRepository productRepository) {
         this.inventoryRepository = inventoryRepository;
+        this.productRepository = productRepository;
     }
 
+    
     public boolean validateInventory(Inventory inventory) {
         Inventory existing = inventoryRepository.findByProductIdandStoreId(
-            inventory.getProduct().getId(),
-            inventory.getStore().getId()
-        );
-        return existing == null;
+                inventory.getProduct().getId(), inventory.getStore().getId());
+        return existing == null;  // true – można dodać, false – już istnieje
     }
 
-    public boolean validateInventory(Long productId, Long storeId) {
-        Inventory existing = inventoryRepository.findByProductIdandStoreId(
-            productId,
-            storeId
-        );
-        return existing == null;
+    // getInventoryId 
+    public Inventory getInventoryId(Inventory inventory) {
+        return inventoryRepository.findByProductIdandStoreId(
+                inventory.getProduct().getId(), inventory.getStore().getId());
     }
 
+    //  metody 
     public boolean validateProduct(Product product) {
-        Product existing = productRepository.findByName(product.getName());
-        return existing == null;
+        return productRepository.findByName(product.getName()) == null;
     }
 
     public boolean ValidateProductId(long id) {
-        Product existing = productRepository.findByid(id);
-        return existing != null;
-    }
-
-    public Inventory getInventoryId(Inventory inventory) {
-        return inventoryRepository.findByProductIdandStoreId(
-            inventory.getProduct().getId(),
-            inventory.getStore().getId()
-        );
-    }
-
-    public Inventory getInventoryId(Long productId, Long storeId) {
-        return inventoryRepository.findByProductIdandStoreId(
-            productId,
-            storeId
-        );
+        return productRepository.findByid(id) != null;
     }
 }
