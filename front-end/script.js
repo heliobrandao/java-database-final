@@ -204,7 +204,7 @@ function validateStoreId(event) {
 
     let submitButton = document.getElementById('submitButton');
     let storeId = document.getElementById('orderStoreId');
-    let url = `${apiURL}/store/validate/${storeId.value}`
+    let url = `${apiURL}/store/validate/store/${storeId.value}`
     fetch(url, {
         method: "GET",
         headers: { "content-type": "application/json" },
@@ -406,7 +406,7 @@ async function createData(products, storeId) {
 
 function viewProductByid(productId) {
 
-    let url = `${apiURL}/product/product/${productId}`;
+    let url = `${apiURL}/product/${productId}`;
     fetch(url, {
         method: "GET",
         headers: { "content-type": "application/json" },
@@ -762,7 +762,7 @@ async function filterParentProduct() {
 
 function getProductByid(productId) {
 
-    let url = `${apiURL}/product/product/${productId}`;
+    let url = `${apiURL}/product/${productId}`;
     fetch(url, {
         method: "GET",
         headers: { "content-type": "application/json" },

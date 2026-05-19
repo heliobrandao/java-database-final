@@ -27,7 +27,7 @@ public class Customer {
     @NotNull(message = "Phone cannot be null")
     private String phone;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "customer")
+    @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
     @JsonManagedReference("customer-orders")
     private List<OrderDetails> orders = new ArrayList<>();
 
